@@ -1,3 +1,6 @@
+from random import randint
+from time import sleep
+
 #funções
 def limparTela():
     print('\n'*100)
@@ -36,6 +39,9 @@ def tabuleiro (c1, c2, c3, c4, c5, c6, c7, c8, c9):
     print(f'+-----+-----+-----+', '          ', f'+-----+-----+-----+')
     print(f'│  7  │  8  │  9  │', '          ', f'│  {c7}  │  {c8}  │  {c9}  │')
     print(f'+-----+-----+-----+', '          ', f'+-----+-----+-----+')
+    print()
+    print('{:^50}'.format('=' * 50))
+
 
 def opcaoInicial():
     while True:
@@ -83,34 +89,125 @@ Pronto para jogar?
 """)
     input('Tecle enter para continuar!')
 
-#variaveis do jogo
-nomeP1 = ''
-nomeP2 = ''
-vitoriasP1 = 0
-vitoriasP2 = 0
-empates = 0
-#variaveis dos compos do tabuleiro
-c1 = ' '
-c2 = ' '
-c3 = ' '
-c4 = ' '
-c5 = ' '
-c6 = ' '
-c7 = ' '
-c8 = ' '
-c9 = ' '
+def dica():
+    print("""Dica: para jogar, escolha o número de uma casa que
+      esteja disponível no tabuleiro da direita.
+Digite " novo " para reiniciar com novos jogadores.
+Digite " sair " para encerrar o aplicativo.
+Digite " zerar " para zerar o placar""")
+    print('{:^50}'.format('=' * 50))
+
 
 #execução
+jogada = ''
 while True:
+    # variaveis do jogo
+    nomeP1 = ''
+    nomeP2 = ''
+    simboloP1 = ''
+    simboloP2 = ''
+    vitoriasP1 = 5
+    vitoriasP2 = 4
+    empates = 0
+    # variaveis dos campos do tabuleiro
+    c1 = ' '
+    c2 = ' '
+    c3 = ' '
+    c4 = ' '
+    c5 = ' '
+    c6 = ' '
+    c7 = ' '
+    c8 = ' '
+    c9 = ' '
+
     opcaoUsuario = opcaoInicial()
     nomeP1 = input('Qual o seu nome? ')
-    if opcaoUsuario == '1' or opcaoUsuario == '2':
-        break
-jogadores = opcaoPlayer()
-if jogadores == '2':
-    nomeP2 = input('Qual o nome do segundo jogador? ')
-else:
-    nomeP2 = 'Computador'
-placar(nomeP1, vitoriasP1, nomeP2, vitoriasP2, empates, opcaoUsuario)
-tabuleiro(c1, c2, c3, c4, c5, c6, c7, c8, c9)
+    if opcaoUsuario == '1':
+        simboloP1 = 'o'
+        simboloP2 = 'x'
+    elif opcaoUsuario == '2':
+        simboloP1 = 'x'
+        simboloP2 = 'o'
 
+    jogadores = opcaoPlayer()
+    if jogadores == '2':
+        nomeP2 = input('Qual o nome do segundo jogador? ')
+    else:
+        nomeP2 = 'Computador'
+    proximoJogador = ''
+
+    while True:
+        if jogada == 'sair':
+            break
+        elif jogada == 'novo':
+            jogada = ''
+            break
+        elif jogada == 'zerar':
+            vitoriasP1 = 0
+            vitoriasP2 = 0
+            empates = 0
+            # variaveis dos campos do tabuleiro
+            c1 = ' '
+            c2 = ' '
+            c3 = ' '
+            c4 = ' '
+            c5 = ' '
+            c6 = ' '
+            c7 = ' '
+            c8 = ' '
+            c9 = ' '
+
+        placar(nomeP1, vitoriasP1, nomeP2, vitoriasP2, empates, opcaoUsuario)
+        tabuleiro(c1, c2, c3, c4, c5, c6, c7, c8, c9)
+        dica()
+
+        if proximoJogador == '' or proximoJogador == nomeP2:
+            proximoJogador = nomeP1
+            proximoSimbolo = simboloP1
+        else:
+            proximoJogador = nomeP2
+            proximoSimbolo = simboloP2
+        while True:
+            jogada = input(f'É a vez do {proximoJogador}({proximoSimbolo}): ').strip().lower()
+            if jogada == 'sair' or jogada == 'novo' or jogada == 'zerar':
+                break
+            if jogada.isnumeric():
+                if int(jogada) >= 1 or int(jogada) <= 9:
+                    if jogada == '1' and c1 == ' ':
+                        c1 = proximoSimbolo
+                        break
+                    elif jogada == '2' and c2 == ' ':
+                        c2 = proximoSimbolo
+                        break
+                    elif jogada == '3' and c3 == ' ':
+                        c3 = proximoSimbolo
+                        break
+                    elif jogada == '4' and c4 == ' ':
+                        c4 = proximoSimbolo
+                        break
+                    elif jogada == '5' and c5 == ' ':
+                        c5 = proximoSimbolo
+                        break
+                    elif jogada == '6' and c6 == ' ':
+                        c6 = proximoSimbolo
+                        break
+                    elif jogada == '7' and c7 == ' ':
+                        c7 = proximoSimbolo
+                        break
+                    elif jogada == '8' and c8 == ' ':
+                        c8 = proximoSimbolo
+                        break
+                    elif jogada == '9' and c9 == ' ':
+                        c9 = proximoSimbolo
+                        break
+                    else:
+                        print('Opção inválida, por favor escolha uma casa que esteja disponível e digite seu número!')
+                else:
+                    print('Opção inválida, por favor escolha uma casa que esteja disponível e digite seu número!')
+            else:
+                print('Opção inválida, por favor escolha uma casa que esteja disponível e digite seu número!')
+    if jogada == 'sair':
+        print('='*50)
+        print('Obrigado por jogar!!!Espero que tenha gostado!!!')
+        print('='*50)
+        break

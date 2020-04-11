@@ -218,7 +218,10 @@ while True:
             proximoSimbolo = simboloP2
 
         while True:
-            jogada = input(f'É a vez do {proximoJogador}({proximoSimbolo}): ').strip().lower()
+            if jogadores == '1' and proximoJogador == 'Computador':
+                jogada = str(randint(1, 9))
+            else:
+                jogada = input(f'É a vez do {proximoJogador}({proximoSimbolo}): ').strip().lower()
             if jogada == 'sair' or jogada == 'trocar' or jogada == 'zerar' or jogada == 'novo':
                 break
             if jogada.isnumeric():
@@ -251,11 +254,19 @@ while True:
                         c9 = proximoSimbolo
                         break
                     else:
-                        print('Opção inválida, por favor escolha uma casa que esteja disponível e digite seu número!')
+                        if jogadores == '2':
+                            print('Opção inválida, por favor escolha uma casa que esteja disponível e digite seu número!')
                 else:
-                    print('Opção inválida, por favor escolha uma casa que esteja disponível e digite seu número!')
+                    if jogadores == '2':
+                        print('Opção inválida, por favor escolha uma casa que esteja disponível e digite seu número!')
             else:
-                print('Opção inválida, por favor escolha uma casa que esteja disponível e digite seu número!')
+                if jogadores == '2':
+                    print('Opção inválida, por favor escolha uma casa que esteja disponível e digite seu número!')
+
+        if jogadores == '1' and proximoJogador == 'Computador':
+            print('O computador está jogando, por favor aguarde!')
+            sleep(3)
+
 
         if verificarVencedor(c1, c2, c3, c4, c5, c6, c7, c8, c9):
             if proximoJogador == nomeP1:
@@ -264,7 +275,7 @@ while True:
                 vitoriasP2 += 1
             placar(nomeP1, vitoriasP1, nomeP2, vitoriasP2, empates, opcaoUsuario)
             tabuleiro(c1, c2, c3, c4, c5, c6, c7, c8, c9)
-            if jogadores == 1:
+            if jogadores == '1' and proximoJogador == nomeP1:
                 print(f'Parabéns {proximoJogador}({proximoSimbolo}), você venceu!')
             else:
                 audioPerdeu()

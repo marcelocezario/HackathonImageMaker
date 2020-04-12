@@ -69,6 +69,7 @@ def opcaoPlayer():
     return opcao
 
 def modoDificil():
+    print()
     print('Deseja jogar em qual dificuldade?\n'
           '[1] normal (movimentos aleatórios pc)\n'
           '[2] difícil (movimentos do pc são calculados)')

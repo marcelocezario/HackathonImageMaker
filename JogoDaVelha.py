@@ -122,6 +122,7 @@ def nivelDificil(c1, c2, c3, c4, c5, c6, c7, c8, c9, pc):
     listaOpcoes3 = []
     listaOpcoes4 = []
     listaOpcoes5 = []
+    listaOpcoes6 = []
     #lista sugestões 1
     #vai sugerir casa 1
     if c1 == ' ':
@@ -268,6 +269,26 @@ def nivelDificil(c1, c2, c3, c4, c5, c6, c7, c8, c9, pc):
         listaOpcoes5.append(7)
     if c9 == ' ':
         listaOpcoes5.append(9)
+    #lista sugestões 6
+    if c1 == ' ':
+        listaOpcoes6.append(1)
+    if c2 == ' ':
+        listaOpcoes6.append(2)
+    if c3 == ' ':
+        listaOpcoes6.append(3)
+    if c4 == ' ':
+        listaOpcoes6.append(4)
+    if c5 == ' ':
+        listaOpcoes6.append(5)
+    if c6 == ' ':
+        listaOpcoes6.append(6)
+    if c7 == ' ':
+        listaOpcoes6.append(7)
+    if c8 == ' ':
+        listaOpcoes6.append(8)
+    if c9 == ' ':
+        listaOpcoes6.append(9)
+
     #vai sugerir um número com base na situação do jogo
     if len(listaOpcoes1) > 0:
         sugestao = listaOpcoes1[randint(0, len(listaOpcoes1)-1)]
@@ -279,6 +300,9 @@ def nivelDificil(c1, c2, c3, c4, c5, c6, c7, c8, c9, pc):
         sugestao = listaOpcoes4[randint(0, len(listaOpcoes4)-1)]
     elif len(listaOpcoes5) > 0:
         sugestao = listaOpcoes5[randint(0, len(listaOpcoes5)-1)]
+    else:
+        sugestao = listaOpcoes6[randint(0, len(listaOpcoes6)-1)]
+
     return sugestao
 
 def regras():
@@ -314,7 +338,13 @@ Digite " sair " para encerrar o aplicativo.""")
 def audioPerdeu():
     pygame.mixer.init()
     pygame.init()
-    pygame.mixer.music.load('silvio-santos-diz-que-pena.mp3')
+    pygame.mixer.music.load('derrota.mp3')
+    pygame.mixer.music.play()
+
+def audioGanhou():
+    pygame.mixer.init()
+    pygame.init()
+    pygame.mixer.music.load('vitoria.mp3')
     pygame.mixer.music.play()
 
 #execução
@@ -459,11 +489,12 @@ while True:
                 vitoriasP2 += 1
             placar(nomeP1, vitoriasP1, nomeP2, vitoriasP2, empates, opcaoUsuario)
             tabuleiro(c1, c2, c3, c4, c5, c6, c7, c8, c9)
-            if jogadores == '1' and proximoJogador == nomeP1:
-                print(f'Parabéns {proximoJogador}({proximoSimbolo}), você venceu!')
-            else:
+            if jogadores == '1' and proximoJogador == nomeP2:
                 audioPerdeu()
                 print('Que pena! Você perdeu!')
+            else:
+                audioGanhou()
+                print(f'Parabéns {proximoJogador}({proximoSimbolo}), você venceu!')
             opcao = input('Deseja continuar jogando? [S/N] ').strip().upper()
             while opcao != 'S' and opcao != 'N':
                 opcao = input('Opção inválida! Deseja continuar jogando? [S/N] ').strip().upper()
